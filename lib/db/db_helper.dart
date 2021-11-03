@@ -2,9 +2,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:todoso/models/task.dart';
 
 class DBHelper {
-  static Database? _db;
-  static final int _version = 1;
-  static final String _tableName = "tasks";
+  static late Database? _db;
+  static const String _tableName = "tasks";
+  static const int _version = 1;
 
   static Future<void> initDb() async {
     if (_db != null) {
@@ -17,13 +17,15 @@ class DBHelper {
         version: _version,
         onCreate: (db, version) {
           print("creating a new one");
-          return db.execute("CREATE TABLE $_tableName("
-              "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-              "title STRING,note teXT,date STRING,"
-              "startTime STRING,endTime STRING,"
-              "remind INTEGER,repeat STRING,"
-              "color INTEGER,"
-              "isCompleted INTEGER)");
+          return db.execute(
+            "CREATE TABLE $_tableName("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "title STRING,note TEXT,date STRING,"
+            "startTime STRING,endTime STRING,"
+            "remind INTEGER,repeat STRING,"
+            "color INTEGER,"
+            "isCompleted INTEGER)",
+          );
         },
       );
     } catch (e) {
@@ -36,9 +38,9 @@ class DBHelper {
     return await _db?.insert(_tableName, task!.toJson()) ?? 1;
   }
 
-  static Future<List<Map<String, dynamic>>> query() async {
+  static Future<List<Map<String, dynamic>>?> query() async {
     print("query method called");
-    return await _db!.query(_tableName);
+    return await _db?.query(_tableName);
   }
 
   static delete(Task task) async {

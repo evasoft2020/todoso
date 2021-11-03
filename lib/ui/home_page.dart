@@ -29,11 +29,11 @@ var _selectedDate;
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    _selectedDate = DateTime.now();
     super.initState();
     notifyHelper = NotifyHelper();
     notifyHelper.initializeNotification();
     notifyHelper.requestIOSPermissions();
+    _selectedDate = DateTime.now();
   }
 
   @override
@@ -48,6 +48,16 @@ class _HomePageState extends State<HomePage> {
           _addDateBar(),
           SizedBox(height: 10),
           _showTask(),
+          /* Expanded(
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                  itemCount: _taskController.taskList.length,
+                  itemBuilder: (_, index) {
+                    return Text(
+                        _taskController.taskList[index].title.toString());
+                  }),
+            ),
+          ), */
         ],
       ),
     );
@@ -126,7 +136,7 @@ class _HomePageState extends State<HomePage> {
         MyButton(
             label: " + Add Task",
             onTap: () async {
-              await Get.to(AddTaskPage());
+              await Get.to(() => AddTaskPage());
               _taskController.getTasks();
             }),
       ]),

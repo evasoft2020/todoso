@@ -5,6 +5,7 @@ import 'package:todoso/models/task.dart';
 class TaskController extends GetxController {
   @override
   void onReady() {
+    getTasks();
     super.onReady();
   }
 
@@ -16,14 +17,9 @@ class TaskController extends GetxController {
 
   // get all the data from table
   void getTasks() async {
-    List<Map<String, dynamic>> tasks = await DBHelper.query();
-    taskList.assignAll(tasks.map((data) => Task.fromJson(data)).toList());
+    List<Map<String, dynamic>>? tasks = await DBHelper.query();
+    taskList.assignAll(tasks!.map((data) => Task.fromJson(data)).toList());
   }
-/*   getTasks() async {
-    List<Map<String, dynamic>> tasks = await DBHelper.query();
-    taskList.assignAll(tasks.map((data) => Task.fromJson(data)).toList());
-  }
-*/
 
   delete(Task task) {
     DBHelper.delete(task);
